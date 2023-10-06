@@ -4,8 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMover : MonoBehaviour
 {
-    // [SerializeField] private float maxSpeed = 10f;
-    
+
     [SerializeField] private float speed = 0f;
     private Vector2 _input;
     
