@@ -1,0 +1,115 @@
+{
+    "name": "PlayerMover",
+    "maps": [
+        {
+            "name": "Air",
+            "id": "56c49ebf-a79c-45da-974f-74997c69cc72",
+            "actions": [
+                {
+                    "name": "RotateCamera",
+                    "type": "Value",
+                    "id": "78d682e8-fc3c-4052-85e5-84783e4ea3c8",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "45897290-cb31-4c8c-be43-efcd2a5c0ff5",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "72ad58ff-5d4d-4b38-904a-3efead512efc",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse And Keyboard",
+                    "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "WASD",
+                    "id": "a11bec46-6540-4797-84c6-2fd2bea18f39",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "34ba6567-53cc-4842-8b5d-98cc5ac5e1c8",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse And Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "1fce1656-288b-4887-8631-4053b3acc527",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse And Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "db29c993-87e8-4406-82bf-3834a4e9839f",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse And Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "19ff4c97-f11b-40a0-bdaf-1a095cb80a66",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse And Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Mouse And Keyboard",
+            "bindingGroup": "Mouse And Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
