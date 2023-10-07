@@ -1,24 +1,20 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-
 namespace CheckpointSystem
 {
     public abstract class BaseTrack: MonoBehaviour
     {
-        public List<Checkpoint> Checkpoints;
-        public int CurrentCheckpoint = 0;
-        public int TrackID;
-        public int NextCheckpoint => GetNextCheckpoint();
+        [SerializeField] protected List<Checkpoint> сheckpoints;
+        protected int _currentCheckpoint = -1;
+        protected int _nextCheckpoint => GetNextCheckpoint();
         
         
         private void Start()
         {
-            foreach (var checkpoint in Checkpoints)
+            foreach (var checkpoint in сheckpoints)
             {
                 checkpoint.OnCheckpointPassed += OnCheckpointPassed;
             }
-
             DeactivateAllCheckpointsExceptFirst();
         }
         
@@ -26,58 +22,57 @@ namespace CheckpointSystem
         [ContextMenu("Update Checkpoints List")]
         private void UpdateCheckpoints()
         {
-            Checkpoints.Clear();
+            сheckpoints.Clear();
             foreach(Transform child in transform)
             {
                 Checkpoint checkpoint = child.GetComponent<Checkpoint>();
                 if (checkpoint != null)
                 {
-                    Checkpoints.Add(checkpoint);
-                    Debug.Log(checkpoint.transform.position);
-                    
+                    сheckpoints.Add(checkpoint);
                 }
+            }
+        }
+
+        protected void DeactivateAllCheckpoints()
+        {
+            foreach (var checkpoint in сheckpoints)
+            {
+                checkpoint.gameObject.SetActive(false);
+                
             }
         }
 
         private void OnCheckpointPassed(int checkpointIndex)
         {
-
-            if (checkpointIndex == NextCheckpoint)
+            if (checkpointIndex == _nextCheckpoint)
             {
-                CurrentCheckpoint = checkpointIndex;
-                if (CurrentCheckpoint == Checkpoints.Count - 1)
-                {
-                    OnLapComplete();
-                }
+                _currentCheckpoint = checkpointIndex;
             }
+            
+            Debug.Log($"CurrentCheckpoint {_currentCheckpoint}");
+            Debug.Log($"NextCheckpoint {_nextCheckpoint}");
             ActivateNextCheckpoint();
+            
         }
         
         public abstract void ResetTrack();
-        private int GetNextCheckpoint()
-        {
-            return CurrentCheckpoint + 1;
-        }
+
         
         protected void DeactivateAllCheckpointsExceptFirst()
         {
-            foreach (var checkpoint in Checkpoints)
+            foreach (var checkpoint in сheckpoints)
             {
                 checkpoint.gameObject.SetActive(false);
                 
             }
-            Checkpoints[0].gameObject.SetActive(true);
+            сheckpoints[0].gameObject.SetActive(true);
         }
-        
-        protected void DeactivateAllCheckpoints()
+
+        protected int GetNextCheckpoint()
         {
-            foreach (var checkpoint in Checkpoints)
-            {
-                checkpoint.gameObject.SetActive(false);
-                
-            }
+            return (_currentCheckpoint + 1) % сheckpoints.Count;
         }
-        
+
         protected abstract void OnLapComplete();
         protected abstract void ActivateNextCheckpoint();
     }

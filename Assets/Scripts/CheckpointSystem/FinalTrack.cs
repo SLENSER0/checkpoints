@@ -2,42 +2,39 @@ using UnityEngine;
 
 namespace CheckpointSystem
 {
-    public class CircuitTrack : BaseTrack
+    public class FinalTrack : BaseTrack
     {
-        private int _rounds;
         private bool _isStarted;
-
         public override void ResetTrack()
         {
-            _rounds = 0;
             _currentCheckpoint = -1;
             DeactivateAllCheckpointsExceptFirst();
             _isStarted = false;
         }
+        
 
         protected override void OnLapComplete()
         {
-            _rounds += 1;
-            Debug.Log($"round {_rounds}");
+            Debug.Log("Track is complete");
+            DeactivateAllCheckpoints();
+            
         }
 
         protected override void ActivateNextCheckpoint()
         {
-            
             сheckpoints[_currentCheckpoint].gameObject.SetActive(false);
             
             if (_nextCheckpoint < сheckpoints.Count)
             {
                 сheckpoints[_nextCheckpoint].gameObject.SetActive(true);
             }
-
-            if (_currentCheckpoint == 0 && _isStarted)
+            if(_nextCheckpoint == 1 && _isStarted)
             {
                 OnLapComplete();
             }
-
             _isStarted = true;
-
+        
         }
+    
     }
 }

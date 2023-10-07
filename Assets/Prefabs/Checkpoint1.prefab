@@ -118,3 +118,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9367f07d026fb9f41bd501037846d1a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BezierLineRenderer: {fileID: 0}

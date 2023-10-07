@@ -8,7 +8,6 @@ public class CameraControl : MonoBehaviour
     
     private Vector2 _currentRotation = Vector2.zero;
 
-
     public void OnRotateCamera(InputAction.CallbackContext context)
     {
         Vector2 delta = context.ReadValue<Vector2>();
