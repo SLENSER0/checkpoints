@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 609581312760752007}
   - component: {fileID: 1241504431830780888}
   - component: {fileID: 6007684839993015931}
+  - component: {fileID: 3884438694817653829}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -30,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 10.25, z: -13.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6484594022682003825}
   - {fileID: 4203245202988906757}
@@ -94,9 +95,25 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 45897290-cb31-4c8c-be43-efcd2a5c0ff5
     m_ActionName: Air/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: CheckpointSystem.FinalTrack, Assembly-CSharp
+        m_MethodName: ResetTrack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: beaed625-960c-43eb-a6ef-fbcaea1b42a2
+    m_ActionName: Player/ResetTrack[/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Mouse And Keyboard
-  m_DefaultActionMap: Air
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &609581312760752007
@@ -111,9 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5b7673bf7dbb3d4aa5b6918c7db0af0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 10
-  maxSpeed: 10
-  damping: 10
+  speed: 30
 --- !u!114 &1241504431830780888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensitivity: 0.2
-  rotationSpeed: 2
+  smoothing: 5
 --- !u!54 &6007684839993015931
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -155,6 +170,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!65 &3884438694817653829
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832005955682977391}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7599635976180349630
 GameObject:
   m_ObjectHideFlags: 0
