@@ -30,9 +30,7 @@ namespace CheckpointSystem
                 OnLapComplete();
             }
 
-            _isStarted = true;
-            transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
-            transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+            ActivateSplineAndObjectForSpline(0, 2);
 
         }
     }

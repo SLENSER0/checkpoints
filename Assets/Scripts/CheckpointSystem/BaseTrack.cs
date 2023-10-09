@@ -22,7 +22,6 @@ namespace CheckpointSystem
                 checkpoint.OnCheckpointPassed += OnCheckpointPassed;
             }
             DeactivateAllCheckpointsExceptFirst();
-            
         }
         
 
@@ -37,7 +36,6 @@ namespace CheckpointSystem
                 {
                     сheckpoints.Add(checkpoint);
                 }
-                
             }
         }
         
@@ -113,10 +111,7 @@ namespace CheckpointSystem
             transform.GetChild(_nextCheckpoint).GetChild(2).GetComponentInChildren<SplineAnimate>().Restart(true);
             
         }
-        
-        public abstract void ResetTrack();
 
-        
         protected void DeactivateAllCheckpointsExceptFirst()
         {
             foreach (var checkpoint in сheckpoints)
@@ -130,12 +125,20 @@ namespace CheckpointSystem
             transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
         }
 
+        protected void ActivateSplineAndObjectForSpline(int splineIndex, int objectForSplineIndex)
+        {
+            transform.GetChild(0).GetChild(splineIndex).gameObject.SetActive(true);
+            transform.GetChild(0).GetChild(objectForSplineIndex).gameObject.SetActive(true);
+            _isStarted = true;
+        }
+
         protected int GetNextCheckpoint()
         {
             return (_currentCheckpoint + 1) % сheckpoints.Count;
         }
 
         protected abstract void OnLapComplete();
+        public abstract void ResetTrack();
         protected abstract void ActivateNextCheckpoint();
     }
 }
