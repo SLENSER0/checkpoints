@@ -85,8 +85,7 @@ namespace CheckpointSystem
         {
             foreach (var checkpoint in сheckpoints)
             {
-                checkpoint.gameObject.SetActive(false);
-                
+                checkpoint.transform.parent.gameObject.SetActive(false);
             }
         }
 
@@ -111,6 +110,7 @@ namespace CheckpointSystem
             {
                 сheckpoints[_nextCheckpoint].transform.parent.gameObject.SetActive(true);
             }
+            transform.GetChild(_nextCheckpoint).GetChild(2).GetComponentInChildren<SplineAnimate>().Restart(true);
             
         }
         
@@ -127,6 +127,7 @@ namespace CheckpointSystem
             сheckpoints[0].transform.parent.gameObject.SetActive(true);
             
             transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
         }
 
         protected int GetNextCheckpoint()
