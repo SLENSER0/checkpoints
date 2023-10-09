@@ -17,7 +17,7 @@ namespace CheckpointSystem
         
         private int GetCheckpointIndex()
         {
-            return transform.GetSiblingIndex();
+            return transform.parent.GetSiblingIndex();
         }
     }
 }

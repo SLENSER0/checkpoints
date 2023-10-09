@@ -4,7 +4,6 @@ namespace CheckpointSystem
 {
     public class FinalTrack : BaseTrack
     {
-        private bool _isStarted;
         public override void ResetTrack()
         {
             _currentCheckpoint = -1;
@@ -22,12 +21,8 @@ namespace CheckpointSystem
 
         protected override void ActivateNextCheckpoint()
         {
-            сheckpoints[_currentCheckpoint].gameObject.SetActive(false);
+            DeactivateCurrentCheckpointAndActivateNext();
             
-            if (_nextCheckpoint < сheckpoints.Count)
-            {
-                сheckpoints[_nextCheckpoint].gameObject.SetActive(true);
-            }
             if(_nextCheckpoint == 1 && _isStarted)
             {
                 OnLapComplete();

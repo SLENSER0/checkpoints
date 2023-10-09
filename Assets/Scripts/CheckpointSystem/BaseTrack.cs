@@ -11,6 +11,7 @@ namespace CheckpointSystem
     {
         [SerializeField] protected List<Checkpoint> сheckpoints;
         protected int _currentCheckpoint = -1;
+        protected bool _isStarted;
         protected int _nextCheckpoint => GetNextCheckpoint();
         
         
@@ -21,7 +22,6 @@ namespace CheckpointSystem
                 checkpoint.OnCheckpointPassed += OnCheckpointPassed;
             }
             DeactivateAllCheckpointsExceptFirst();
-            transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             
         }
         
@@ -32,7 +32,7 @@ namespace CheckpointSystem
             сheckpoints.Clear();
             foreach(Transform child in transform)
             {
-                Checkpoint checkpoint = child.GetComponent<Checkpoint>();
+                Checkpoint checkpoint = child.GetComponentInChildren<Checkpoint>();
                 if (checkpoint != null)
                 {
                     сheckpoints.Add(checkpoint);
@@ -102,6 +102,17 @@ namespace CheckpointSystem
             ActivateNextCheckpoint();
             
         }
+
+        protected void DeactivateCurrentCheckpointAndActivateNext()
+        {
+            сheckpoints[_currentCheckpoint].transform.parent.gameObject.SetActive(false);
+            
+            if (_nextCheckpoint < сheckpoints.Count)
+            {
+                сheckpoints[_nextCheckpoint].transform.parent.gameObject.SetActive(true);
+            }
+            
+        }
         
         public abstract void ResetTrack();
 
@@ -110,10 +121,12 @@ namespace CheckpointSystem
         {
             foreach (var checkpoint in сheckpoints)
             {
-                checkpoint.gameObject.SetActive(false);
+                checkpoint.transform.parent.gameObject.SetActive(false);
                 
             }
-            сheckpoints[0].gameObject.SetActive(true);
+            сheckpoints[0].transform.parent.gameObject.SetActive(true);
+            
+            transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
         }
 
         protected int GetNextCheckpoint()

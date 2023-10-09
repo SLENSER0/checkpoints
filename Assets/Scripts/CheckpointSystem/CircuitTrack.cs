@@ -5,7 +5,6 @@ namespace CheckpointSystem
     public class CircuitTrack : BaseTrack
     {
         private int _rounds;
-        private bool _isStarted;
 
         public override void ResetTrack()
         {
@@ -23,13 +22,8 @@ namespace CheckpointSystem
 
         protected override void ActivateNextCheckpoint()
         {
-            
-            сheckpoints[_currentCheckpoint].gameObject.SetActive(false);
-            
-            if (_nextCheckpoint < сheckpoints.Count)
-            {
-                сheckpoints[_nextCheckpoint].gameObject.SetActive(true);
-            }
+
+            DeactivateCurrentCheckpointAndActivateNext();
 
             if (_currentCheckpoint == 0 && _isStarted)
             {
