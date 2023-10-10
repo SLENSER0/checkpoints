@@ -27,7 +27,8 @@ namespace CheckpointSystem
             {
                 OnLapComplete();
             }
-            ActivateSplineAndObjectForSpline(0, 2);
+
+            StartTrack();
 
         }
     

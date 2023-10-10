@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -9,7 +8,7 @@ namespace CheckpointSystem
 {
     public abstract class BaseTrack: MonoBehaviour
     {
-        [SerializeField] protected List<Checkpoint> сheckpoints;
+        [SerializeField] protected List<Checkpoint> checkpoints;
         protected int _currentCheckpoint = -1;
         protected bool _isStarted;
         protected int _nextCheckpoint => GetNextCheckpoint();
@@ -17,7 +16,7 @@ namespace CheckpointSystem
         
         private void Start()
         {
-            foreach (var checkpoint in сheckpoints)
+            foreach (var checkpoint in checkpoints)
             {
                 checkpoint.OnCheckpointPassed += OnCheckpointPassed;
             }
@@ -28,13 +27,13 @@ namespace CheckpointSystem
         [ContextMenu("Update Checkpoints List")]
         private void UpdateCheckpoints()
         {
-            сheckpoints.Clear();
+            checkpoints.Clear();
             foreach(Transform child in transform)
             {
-                Checkpoint checkpoint = child.GetComponentInChildren<Checkpoint>();
+                Checkpoint checkpoint = child.GetComponent<Checkpoint>();
                 if (checkpoint != null)
                 {
-                    сheckpoints.Add(checkpoint);
+                    checkpoints.Add(checkpoint);
                 }
             }
         }
@@ -43,26 +42,25 @@ namespace CheckpointSystem
         [ContextMenu("Draw lines Between Checkpoints")]
         private void DrawLineBetweenCheckpoints()
         {
-            for (int i = 1; i < сheckpoints.Count; i++)
+            for (int i = 1; i < checkpoints.Count; i++)
             {
                 DrawLineBetweenCheckpointsByIndex(i, i - 1);
 
             }
 
-            DrawLineBetweenCheckpointsByIndex(0, сheckpoints.Count - 1);
+            DrawLineBetweenCheckpointsByIndex(0, checkpoints.Count - 1);
         }
 
         private void DrawLineBetweenCheckpointsByIndex(int index1, int index2)
         {
-            var spline = transform.GetChild(index1).GetComponentInChildren<SplineContainer>();
-            var previousSpline = transform.GetChild(index2).GetComponentInChildren<SplineContainer>();
+            var spline = checkpoints[index1].Spline;
+            var secondSpline =  checkpoints[index2].Spline;
+            
+            int splineLength = spline.Spline.Count;
 
-            if (spline.Spline.ToArray().Length < 2)
+            for (int j = splineLength; j < 2; j++)
             {
-                for (int j = spline.Spline.ToArray().Length; j <2; j++)
-                {
-                    spline.Spline.Add(new BezierKnot(float3.zero));
-                }
+                spline.Spline.Add(new BezierKnot(float3.zero));
             }
                 
             var firstKnot = spline.Spline.ToArray()[0];
@@ -70,20 +68,22 @@ namespace CheckpointSystem
 
                 
             firstKnot.Position = Vector3.zero;
-            lastKnot.Position = spline.transform.InverseTransformPoint(previousSpline.transform.position);
+            lastKnot.Position = spline.transform.InverseTransformPoint(secondSpline.transform.position);
                 
             firstKnot.Rotation = Quaternion.LookRotation(lastKnot.Position - firstKnot.Position);
             lastKnot.Rotation = Quaternion.LookRotation(firstKnot.Position - lastKnot.Position);
-                
+
+            int lastKnotIndex = spline.Spline.ToArray().Length - 1;
+            
             spline.Spline.SetKnot(0,lastKnot);
-            spline.Spline.SetKnot(spline.Spline.ToArray().Length-1,firstKnot);
+            spline.Spline.SetKnot(lastKnotIndex,firstKnot);
         }
 
         protected void DeactivateAllCheckpoints()
         {
-            foreach (var checkpoint in сheckpoints)
+            foreach (var checkpoint in checkpoints)
             {
-                checkpoint.transform.parent.gameObject.SetActive(false);
+                checkpoint.gameObject.SetActive(false);
             }
         }
 
@@ -102,39 +102,39 @@ namespace CheckpointSystem
 
         protected void DeactivateCurrentCheckpointAndActivateNext()
         {
-            сheckpoints[_currentCheckpoint].transform.parent.gameObject.SetActive(false);
+            checkpoints[_currentCheckpoint].transform.gameObject.SetActive(false);
             
-            if (_nextCheckpoint < сheckpoints.Count)
+            if (_nextCheckpoint < checkpoints.Count)
             {
-                сheckpoints[_nextCheckpoint].transform.parent.gameObject.SetActive(true);
+                checkpoints[_nextCheckpoint].transform.gameObject.SetActive(true);
             }
-            transform.GetChild(_nextCheckpoint).GetChild(2).GetComponentInChildren<SplineAnimate>().Restart(true);
+            checkpoints[_nextCheckpoint].ObjectAlongSplineAnimate.Restart(true);
             
         }
 
         protected void DeactivateAllCheckpointsExceptFirst()
         {
-            foreach (var checkpoint in сheckpoints)
+            foreach (var checkpoint in checkpoints)
             {
-                checkpoint.transform.parent.gameObject.SetActive(false);
+                checkpoint.transform.gameObject.SetActive(false);
                 
             }
-            сheckpoints[0].transform.parent.gameObject.SetActive(true);
+            checkpoints[0].transform.gameObject.SetActive(true);
             
-            transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+            checkpoints[0].Spline.gameObject.SetActive(false);
+            checkpoints[0].ObjectAlongSplineAnimate.gameObject.SetActive(false);;
         }
 
-        protected void ActivateSplineAndObjectForSpline(int splineIndex, int objectForSplineIndex)
+        protected void StartTrack()
         {
-            transform.GetChild(0).GetChild(splineIndex).gameObject.SetActive(true);
-            transform.GetChild(0).GetChild(objectForSplineIndex).gameObject.SetActive(true);
+            checkpoints[0].Spline.gameObject.SetActive(true);
+            checkpoints[0].ObjectAlongSplineAnimate.gameObject.SetActive(true);
             _isStarted = true;
         }
 
         protected int GetNextCheckpoint()
         {
-            return (_currentCheckpoint + 1) % сheckpoints.Count;
+            return (_currentCheckpoint + 1) % checkpoints.Count;
         }
 
         protected abstract void OnLapComplete();
