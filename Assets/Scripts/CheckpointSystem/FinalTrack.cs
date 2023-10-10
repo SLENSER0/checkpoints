@@ -1,36 +1,30 @@
-using UnityEngine;
-
 namespace CheckpointSystem
 {
     public class FinalTrack : BaseTrack
     {
+        
         public override void ResetTrack()
         {
-            _currentCheckpoint = -1;
-            DeactivateAllCheckpointsExceptFirst();
-            _isStarted = false;
+            _checkpointsManager.CurrentCheckpoint = -1;
+            _checkpointsManager.DeactivateAllCheckpointsExceptFirst();
+            IsStarted = false;
         }
         
-
+        
         protected override void OnLapComplete()
         {
-            Debug.Log("Track is complete");
-            DeactivateAllCheckpoints();
-            
-        }
-
-        protected override void ActivateNextCheckpoint()
-        {
-            DeactivateCurrentCheckpointAndActivateNext();
-            
-            if(_nextCheckpoint == 1 && _isStarted)
+            if (IsStarted)
             {
-                OnLapComplete();
+                TrackComplete();
             }
-
-            StartTrack();
-
+            else
+            {
+                _checkpointsManager.StartTrack();
+                IsStarted = true;
+            }
+            
         }
-    
+
+        
     }
 }

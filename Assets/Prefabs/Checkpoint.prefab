@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Spline: {fileID: 7808422437115244448}
-  ObjectForSpline: {fileID: 784411238312786719}
+  ObjectAlongSplineAnimate: {fileID: 784411238312786719}
 --- !u!65 &8226571716082517977
 BoxCollider:
   m_ObjectHideFlags: 0

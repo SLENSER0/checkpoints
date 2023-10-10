@@ -9,29 +9,24 @@ namespace CheckpointSystem
         public override void ResetTrack()
         {
             _rounds = 0;
-            _currentCheckpoint = -1;
-            DeactivateAllCheckpointsExceptFirst();
-            _isStarted = false;
+            _checkpointsManager.CurrentCheckpoint = -1;
+            _checkpointsManager.DeactivateAllCheckpointsExceptFirst();
+            IsStarted = false;
         }
 
         protected override void OnLapComplete()
         {
-            _rounds += 1;
-            Debug.Log($"round {_rounds}");
-        }
-
-        protected override void ActivateNextCheckpoint()
-        {
-
-            DeactivateCurrentCheckpointAndActivateNext();
-
-            if (_currentCheckpoint == 0 && _isStarted)
+            if (IsStarted)
             {
-                OnLapComplete();
+                _rounds += 1;
+                Debug.Log($"round {_rounds}");
             }
-
-            StartTrack();
-
+            else
+            {
+                IsStarted = true;
+            }
+            
         }
+        
     }
 }
