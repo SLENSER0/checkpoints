@@ -10,8 +10,9 @@ namespace CheckpointSystem
     {
         public static void DrawLineBetweenCheckpoints(List<Checkpoint> checkpoints)
         {
-            for (var i = 1; i < checkpoints.Count; i++) DrawLineBetweenCheckpointsByIndex(checkpoints, i, i - 1);
-            
+            for (var i = 1; i < checkpoints.Count; i++) 
+                DrawLineBetweenCheckpointsByIndex(checkpoints, i, i - 1);
+
             DrawLineBetweenCheckpointsByIndex(checkpoints, 0, checkpoints.Count - 1);
         }
 
@@ -26,7 +27,7 @@ namespace CheckpointSystem
 
             var firstKnot = spline.Spline.ToArray()[0];
             var lastKnot = spline.Spline.ToArray().Last();
-            
+
             firstKnot.Position = Vector3.zero;
             lastKnot.Position = spline.transform.InverseTransformPoint(secondSpline.transform.position);
 

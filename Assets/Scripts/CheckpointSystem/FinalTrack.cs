@@ -7,18 +7,15 @@ namespace CheckpointSystem
             OnTrackComplete();
         }
 
+
         protected override void ActivateNextCheckpoint()
         {
             DeactivateCurrentCheckpointAndActivateNext();
-            
-            if(_currentCheckpoint == _getLastCheckpoint && _isStarted)
-            {
+
+            if (_currentCheckpoint == _getLastCheckpoint && _isStarted) 
                 OnLapComplete();
-            }
 
             StartTrack();
-
         }
-    
     }
 }

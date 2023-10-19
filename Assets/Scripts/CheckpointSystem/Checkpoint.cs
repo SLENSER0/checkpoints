@@ -10,15 +10,13 @@ namespace CheckpointSystem
 
         public SplineContainer Spline;
         public SplineAnimate ObjectAlongSplineAnimate;
-        
+
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
-            {
+            if (other.CompareTag("Player")) 
                 OnCheckpointPassed?.Invoke(GetCheckpointIndex());
-            }
         }
-        
+
         private int GetCheckpointIndex()
         {
             return transform.GetSiblingIndex();

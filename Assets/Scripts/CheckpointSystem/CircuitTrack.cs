@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace CheckpointSystem
@@ -27,24 +26,18 @@ namespace CheckpointSystem
             _rounds += 1;
             Debug.Log($"round {_rounds}");
 
-            if (_rounds == maxRounds)
-            {
+            if (_rounds == maxRounds) 
                 OnTrackComplete();
-            }
         }
 
         protected override void ActivateNextCheckpoint()
         {
-
             DeactivateCurrentCheckpointAndActivateNext();
 
-            if (_currentCheckpoint == 0 && _isStarted)
-            {
+            if (_currentCheckpoint == 0 && _isStarted) 
                 OnLapComplete();
-            }
 
             StartTrack();
-
         }
     }
 }
